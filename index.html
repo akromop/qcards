@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <title>QCards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-body: #050814;
+      --bg-card: #0b0f1f;
+      --accent-pink: #ff4fbf;
+      --accent-pink-hover: #ff6fd0;
+      --accent-lilac: #b388ff;
+      --accent-lilac-hover: #9b6cff;
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      /* более спокойный серый, менее кричащий */
+      --text-subtle: rgba(255, 255, 255, 0.48);
+      --btn-dark: #141827;
+      --btn-dark-hover: #1a1f33;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 999px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+    }
+
+    /* Контейнер — без 100vh, чтобы не приходилось скроллить до низа */
+    .app {
+      max-width: 480px;
+      margin: 16px auto 24px;
+      padding: 16px 16px 20px;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(179, 136, 255, 0.16), transparent 55%),
+        var(--bg-card);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+    }
+
+    header {
+      margin-bottom: 14px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      margin: 0 0 4px;
+      letter-spacing: 0.02em;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
+    }
+
+    /* КНОПКИ ВЫБОРА РЕЖИМА */
+    .mode-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0 6px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 11px 14px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.06s ease, box-shadow 0.06s ease,
+        background-color 0.08s ease, opacity 0.08s ease;
+      will-change: transform;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .btn-primary {
+      background: var(--accent-pink);
+      color: #250815;
+      box-shadow: 0 8px 20px rgba(255, 79, 191, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-pink-hover);
+    }
+
+    /* Вторая кнопка — стабильный сиреневый, не серый */
+    .btn-secondary {
+      background: var(--accent-lilac);
+      color: #1b1030;
+      box-shadow: 0 8px 18px rgba(179, 136, 255, 0.45);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-lilac-hover);
+    }
+
+    .btn-ghost {
+      padding: 6px 10px;
+      font-size: 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-subtle);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .small-label {
+      font-size: 12px;
+      color: var(--text-subtle);
+    }
+
+    /* КАРТОЧКА */
+    .card {
+      margin-top: 8px;
+      padding: 14px 14px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(6, 9, 22, 0.9);
+      border: 1px solid var(--border-soft);
+    }
+
+    .card-type {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-subtle);
+    }
+
+    .card-text {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .btn-back {
+      width: auto;
+      min-width: 120px;
+      padding-inline: 16px;
+      font-size: 14px;
+    }
+
+    /* НИЖНИЙ БЛОК СО СЧЁТЧИКОМ — ближе к контенту, без «подвала на весь экран» */
+    .bottom-row {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-subtle);
+    }
+
+    .bottom-row span strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .bottom-row-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Мелкие улучшения для мобилы */
+    @media (max-width: 400px) {
+      .app {
+        margin: 10px auto 18px;
+        padding: 12px 12px 16px;
+      }
+
+      header h1 {
+        font-size: 18px;
+      }
+
+      .btn {
+        font-size: 15px;
+        padding: 9px 12px;
+      }
+
+      .card-text {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>QCards</h1>
+      <p>To kort om gangen – én for samtale, én for overraskelse.</p>
+    </header>
+
+    <!-- Экран с двумя кнопками -->
+    <main class="screen active" id="screen-home">
+      <div class="mode-buttons">
+        <button id="btn-spm" class="btn btn-primary">
+          Spørsmål
+        </button>
+        <button id="btn-overraskelse" class="btn btn-secondary">
+          Overraskelse
+        </button>
+      </div>
+
+      <p class="small-label">
+        Trykk på en knapp for å få et kort. Kortene logges i arket <em>Generator</em>.
+      </p>
+    </main>
+
+    <!-- Экран с карточкой -->
+    <main class="screen" id="screen-card">
+      <div class="card">
+        <div class="card-type">
+          <span id="card-type-label">Type: –</span>
+          <span class="pill" id="card-id-pill">ID: –</span>
+        </div>
+        <div class="card-text" id="card-text">
+          Laster kort …
+        </div>
+        <div class="card-footer">
+          <button id="btn-back" class="btn btn-ghost btn-back">
+            ← Tilbake
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Нижняя строка: счётчик + сброс -->
+    <div class="bottom-row">
+      <span>
+        Kort i dag: <strong id="stats-count">–</strong>
+      </span>
+      <div class="bottom-row-right">
+        <span class="small-label">Start på nytt?</span>
+        <button id="btn-reset" class="btn-ghost" type="button">
+          Nullstill for i dag
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ВСТАВЬ СВОЙ WEB APP URL НИЖЕ
+    const BACKEND_URL = 'https://script.google.com/macros/s/PASTE_YOUR_URL_HERE/exec';
+
+    const screenHome = document.getElementById('screen-home');
+    const screenCard = document.getElementById('screen-card');
+
+    const btnSpm = document.getElementById('btn-spm');
+    const btnOverraskelse = document.getElementById('btn-overraskelse');
+    const btnBack = document.getElementById('btn-back');
+    const btnReset = document.getElementById('btn-reset');
+
+    const cardTypeLabel = document.getElementById('card-type-label');
+    const cardIdPill = document.getElementById('card-id-pill');
+    const cardText = document.getElementById('card-text');
+    const statsCountEl = document.getElementById('stats-count');
+
+    function setScreen(name) {
+      if (name === 'home') {
+        screenHome.classList.add('active');
+        screenCard.classList.remove('active');
+      } else if (name === 'card') {
+        screenCard.classList.add('active');
+        screenHome.classList.remove('active');
+      }
+    }
+
+    async function callBackend(params) {
+      const url = new URL(BACKEND_URL);
+      if (params) {
+        Object.keys(params).forEach(key => {
+          url.searchParams.set(key, params[key]);
+        });
+      }
+
+      const res = await fetch(url.toString(), { cache: 'no-store' });
+      if (!res.ok) {
+        throw new Error('HTTP ' + res.status);
+      }
+      return res.json();
+    }
+
+    async function loadCard(mode) {
+      try {
+        // лёгкий визуальный фидбек
+        cardText.textContent = 'Laster kort …';
+        setScreen('card');
+
+        const data = await callBackend({ mode });
+
+        if (!data.ok) {
+          cardTypeLabel.textContent = 'Feil';
+          cardIdPill.textContent = 'ID: –';
+          cardText.textContent = data.error || 'Ukjent feil';
+          return;
+        }
+
+        cardTypeLabel.textContent = 'Type: ' + (data.type || '–');
+        cardIdPill.textContent = 'ID: ' + (data.id ?? '–');
+        cardText.textContent = data.text || '';
+
+        // Обновим счётчик
+        updateStats();
+      } catch (err) {
+        cardTypeLabel.textContent = 'Feil';
+        cardIdPill.textContent = 'ID: –';
+        cardText.textContent = 'Kunne ikke hente kort. Prøv igjen.';
+        console.log(err);
+      }
+    }
+
+    async function updateStats() {
+      try {
+        const data = await callBackend({ mode: 'stats' });
+        if (data.ok && typeof data.count === 'number') {
+          statsCountEl.textContent = data.count;
+        }
+      } catch (err) {
+        console.log('stats error', err);
+      }
+    }
+
+    async function resetToday() {
+      try {
+        const data = await callBackend({ mode: 'reset' });
+        // ожидаем { ok:true, ... } — просто обновляем счётчик
+        await updateStats();
+      } catch (err) {
+        console.log('reset error', err);
+      }
+    }
+
+    // События
+    btnSpm.addEventListener('click', () => loadCard('spm'));
+    btnOverraskelse.addEventListener('click', () => loadCard('overraskelse'));
+    btnBack.addEventListener('click', () => setScreen('home'));
+    btnReset.addEventListener('click', resetToday);
+
+    // При загрузке сразу подгружаем статистику
+    updateStats();
+  </script>
+</body>
+</html>
