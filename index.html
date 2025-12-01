@@ -7,18 +7,26 @@
 
   <style>
     :root {
+      /* 🟢 Цвета фона и карточки */
       --bg-body: #050814;
       --bg-card: #0b0f1f;
+
+      /* 🟢 Акцентные цвета кнопок */
       --accent-pink: #ff4fbf;
       --accent-pink-hover: #ff6fd0;
       --accent-lilac: #b388ff;
       --accent-lilac-hover: #9b6cff;
+
+      /* 🟢 Цвета текста и бордеров */
       --border-soft: rgba(255, 255, 255, 0.08);
       --text-main: #ffffff;
-      /* ещё более спокойный серый */
       --text-subtle: rgba(255, 255, 255, 0.4);
+
+      /* 🟢 Тёмная «призрачная» кнопка */
       --btn-dark: #141827;
       --btn-dark-hover: #1a1f33;
+
+      /* 🟢 Скругления и тень */
       --radius-lg: 18px;
       --radius-md: 12px;
       --radius-sm: 999px;
@@ -41,7 +49,7 @@
     .app {
       max-width: 480px;
       margin: 16px auto 24px;
-      padding: 16px 16px 20px;
+      padding: 18px 16px 24px; /* 🟢 общие отступы внутри «карточки-приложения» */
       border-radius: var(--radius-lg);
       background:
         radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
@@ -52,18 +60,19 @@
     }
 
     header {
-      margin-bottom: 14px;
+      text-align: center;          /* 🟢 выравнивание заголовка по центру */
+      margin-bottom: 18px;         /* 🟢 расстояние от шапки до контента */
     }
 
     header h1 {
-      font-size: 20px;
-      margin: 0 0 4px;
+      font-size: 20px;             /* 🟢 размер заголовка */
+      margin: 0;
       letter-spacing: 0.02em;
     }
 
     header p {
-      margin: 0;
-      font-size: 13px;
+      margin: 10px 0 0;            /* 🟢 «пустая строка» между h1 и подзаголовком */
+      font-size: 13px;             /* 🟢 размер подзаголовка */
       color: var(--text-subtle);
     }
 
@@ -78,8 +87,8 @@
     .mode-buttons {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin: 14px 0 6px;
+      gap: 16px;                   /* 🟢 расстояние между двумя большими кнопками */
+      margin: 20px 0 16px;         /* 🟢 отступы сверху/снизу блока с кнопками */
     }
 
     .btn {
@@ -87,8 +96,8 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 11px 14px;
-      font-size: 16px;
+      padding: 18px 14px;          /* 🟢 высота кнопок (увеличено ~в 1.5 раза) */
+      font-size: 18px;             /* 🟢 размер текста на кнопках */
       font-weight: 600;
       border-radius: var(--radius-md);
       border: none;
@@ -143,8 +152,13 @@
     }
 
     .btn-ghost.small-reset {
-      padding: 4px 10px;
+      padding: 4px 10px;           /* 🟢 размер маленькой кнопки сброса */
       font-size: 11px;
+    }
+
+    .btn-ghost:disabled {
+      opacity: 0.45;               /* 🟢 визуальное состояние disabled */
+      cursor: default;
     }
 
     .small-label {
@@ -154,7 +168,6 @@
 
     /* КАРТОЧКА */
     .card {
-      margin-top: 8px;
       padding: 14px 14px 12px;
       border-radius: var(--radius-md);
       background: rgba(6, 9, 22, 0.9);
@@ -178,42 +191,44 @@
       margin-bottom: 8px;
       color: var(--text-subtle);
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-end;   /* тип только справа */
       align-items: center;
     }
 
     .pill {
       padding: 2px 8px;
       border-radius: 999px;
-      font-size: 11px;
+      font-size: 11px;             /* 🟢 размер типа в «пузыре» */
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-subtle);
     }
 
     .card-text {
-      font-size: 16px;
-      line-height: 1.5;
-      margin-bottom: 14px;
+      font-size: 18px;             /* 🟢 размер текста карточки (слегка увеличен) */
+      line-height: 1.55;           /* 🟢 межстрочный интервал карточки */
+      margin-bottom: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
     }
 
-    .card-footer {
+    /* Кнопка «Tilbake» — отдельный блок под карточкой, справа */
+    .card-actions {
+      margin-top: 12px;            /* 🟢 расстояние между рамкой карточки и кнопкой назад */
       display: flex;
-      justify-content: flex-start;
+      justify-content: flex-end;
     }
 
     .btn-back {
       width: auto;
       min-width: 120px;
       padding-inline: 16px;
-      font-size: 14px;
+      font-size: 14px;             /* 🟢 размер текста Tilbake */
     }
 
     /* НИЖНИЙ БЛОК СО СЧЁТЧИКОМ — только на главном экране, справа */
     .bottom-row {
-      margin-top: 10px;
+      margin-top: 18px;            /* 🟢 отступ под кнопками до футера */
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -230,7 +245,7 @@
     @media (max-width: 400px) {
       .app {
         margin: 10px auto 18px;
-        padding: 12px 12px 16px;
+        padding: 14px 12px 18px;   /* 🟢 отступы на очень маленьких экранах */
       }
 
       header h1 {
@@ -238,12 +253,12 @@
       }
 
       .btn {
-        font-size: 15px;
-        padding: 9px 12px;
+        font-size: 17px;
+        padding: 16px 12px;
       }
 
       .card-text {
-        font-size: 15px;
+        font-size: 17px;
       }
     }
   </style>
@@ -252,6 +267,7 @@
   <div class="app">
     <header>
       <h1>QCards</h1>
+      <!-- 🟢 текст под заголовком для подростков -->
       <p id="header-sub">Klar for prat eller bare litt fun? Trykk på en knapp.</p>
     </header>
 
@@ -286,17 +302,17 @@
         <div class="card-text" id="card-text">
           Laster kort …
         </div>
-        <div class="card-footer">
-          <button id="btn-back" class="btn btn-ghost btn-back">
-            ← Tilbake
-          </button>
-        </div>
+      </div>
+      <div class="card-actions">
+        <button id="btn-back" class="btn btn-ghost btn-back">
+          ← Tilbake
+        </button>
       </div>
     </main>
   </div>
 
   <script>
-    // ВСТАВЬ СВОЙ WEB APP URL НИЖЕ
+    // 🟢 ВСТАВЬ СВОЙ WEB APP URL НИЖЕ
     const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxG4qwvJAu51QRaQgu9FvKnMb5Wi2NMHQK8mnSsRsFlogSElriOFXZ96uOuGwGF6yQ0qg/exec';
 
     const screenHome = document.getElementById('screen-home');
@@ -317,13 +333,13 @@
       if (name === 'home') {
         screenHome.classList.add('active');
         screenCard.classList.remove('active');
-        // Подзаголовок виден только на главной
-        headerSub.textContent = 'Klar for prat eller bare litt fun? Trykk på en knapp.';
+        // подзаголовок виден только на главной
+        headerSub.textContent = 'Klar for prat eller bare litt fun? Trykk på en knapp.'; // 🟢 текст легко поменять
         headerSub.style.display = 'block';
       } else if (name === 'card') {
         screenCard.classList.add('active');
         screenHome.classList.remove('active');
-        // На карточке подзаголовок убираем
+        // на карточке подзаголовок убираем
         headerSub.style.display = 'none';
       }
     }
@@ -392,10 +408,19 @@
 
     async function resetToday() {
       try {
+        // индикация нажатия
+        const prevText = btnReset.textContent;
+        btnReset.textContent = '...';
+        btnReset.disabled = true;
+
         await callBackend({ mode: 'reset' });
         await updateStats();
       } catch (err) {
         console.log('reset error', err);
+      } finally {
+        // вернуть нормальное состояние
+        btnReset.textContent = 'Nullstill';
+        btnReset.disabled = false;
       }
     }
 
