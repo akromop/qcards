@@ -1,27 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
   <title>QCards</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     :root {
-      --bg: #05060b;
-      --card-bg: rgba(18, 20, 32, 0.92);
-      --card-border: rgba(255, 255, 255, 0.06);
-      --accent-pink: #ff5faf;
-      --accent-purple: #c691ff;
-      --accent-purple-soft: #b48bff;
+      --bg-body: #050814;
+      --bg-card: #0b0f1f;
+      --accent-pink: #ff4fbf;
+      --accent-pink-hover: #ff6fd0;
+      --accent-lilac: #b388ff;
+      --accent-lilac-hover: #9b6cff;
+      --border-soft: rgba(255, 255, 255, 0.08);
       --text-main: #ffffff;
-      --text-muted: rgba(255, 255, 255, 0.55);
-      --pill-bg: rgba(255, 255, 255, 0.06);
-      --pill-text: rgba(255, 255, 255, 0.8);
-      --btn-dark: rgba(255, 255, 255, 0.08);
-      --btn-dark-border: rgba(255, 255, 255, 0.12);
-      --shadow-soft: 0 22px 40px rgba(0, 0, 0, 0.65);
-      --radius-lg: 28px;
-      --radius-md: 22px;
+      /* ещё более спокойный серый */
+      --text-subtle: rgba(255, 255, 255, 0.4);
+      --btn-dark: #141827;
+      --btn-dark-hover: #1a1f33;
+      --radius-lg: 18px;
+      --radius-md: 12px;
       --radius-sm: 999px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
     }
 
     * {
@@ -31,434 +32,381 @@
 
     body {
       margin: 0;
-      padding: 12px;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, #2b1945 0, transparent 55%),
-        radial-gradient(circle at top right, #36214f 0, transparent 55%),
-        radial-gradient(circle at bottom, #07101c 0, #020308 70%);
+      background: var(--bg-body);
       color: var(--text-main);
-      display: flex;
-      justify-content: center;
     }
 
-    .shell {
-      width: 100%;
-      max-width: 540px;
-    }
-
-    .panel {
-      background: linear-gradient(135deg, rgba(86, 54, 123, 0.42), rgba(18, 20, 32, 0.96));
+    .app {
+      max-width: 480px;
+      margin: 16px auto 24px;
+      padding: 16px 16px 20px;
       border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(179, 136, 255, 0.16), transparent 55%),
+        var(--bg-card);
       box-shadow: var(--shadow-soft);
-      padding: 18px 18px 14px;
-      border: 1px solid var(--card-border);
+      border: 1px solid var(--border-soft);
     }
 
-    @media (min-width: 600px) {
-      .panel {
-        padding: 20px 22px 16px;
-      }
+    header {
+      margin-bottom: 14px;
     }
 
-    .header {
-      margin-bottom: 10px;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+    header h1 {
+      font-size: 20px;
       margin: 0 0 4px;
+      letter-spacing: 0.02em;
     }
 
-    .subtitle {
+    header p {
       margin: 0;
-      font-size: 14px;
-      line-height: 1.4;
-      color: var(--text-muted);
+      font-size: 13px;
+      color: var(--text-subtle);
     }
 
-    .hidden {
-      display: none !important;
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
     }
 
-    .main {
-      margin-top: 14px;
-      margin-bottom: 10px;
-    }
-
-    .btn-col {
+    /* КНОПКИ ВЫБОРА РЕЖИМА */
+    .mode-buttons {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      margin: 14px 0 6px;
     }
 
     .btn {
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 12px 18px;
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      color: var(--text-main);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
-      transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
       width: 100%;
-      min-height: 54px;
+      padding: 11px 14px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.06s ease, box-shadow 0.06s ease,
+        background-color 0.08s ease, opacity 0.08s ease;
+      will-change: transform;
     }
 
     .btn:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
-      filter: brightness(0.97);
+      transform: translateY(1px);
+      box-shadow: none;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #ff68b5, #ff379a);
+      background: var(--accent-pink);
+      color: #250815;
+      box-shadow: 0 8px 20px rgba(255, 79, 191, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-pink-hover);
     }
 
     .btn-secondary {
-      background: linear-gradient(135deg, var(--accent-purple-soft), var(--accent-purple));
+      background: var(--accent-lilac);
+      color: #1b1030;
+      box-shadow: 0 8px 18px rgba(179, 136, 255, 0.45);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-lilac-hover);
     }
 
     .btn-ghost {
-      background: var(--btn-dark);
-      border: 1px solid var(--btn-dark-border);
-      box-shadow: none;
-      font-size: 16px;
-      font-weight: 500;
-      padding: 10px 20px;
-      min-height: 46px;
-    }
-
-    .btn-ghost:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: none;
-    }
-
-    .btn-ghost span {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-ghost span::before {
-      content: "←";
-      font-size: 16px;
-      opacity: 0.9;
-    }
-
-    .footer {
-      margin-top: 6px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .cards-today-label {
-      white-space: nowrap;
-    }
-
-    .cards-today-count {
-      font-weight: 600;
-      color: #ffffff;
-      margin-left: 4px;
-    }
-
-    .btn-reset {
-      border-radius: 999px;
-      padding: 7px 15px;
-      font-size: 14px;
-      font-weight: 500;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(12px);
-    }
-
-    .btn-reset:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: none;
-    }
-
-    /* CARD VIEW */
-
-    .card-root {
-      margin-top: 10px;
-      margin-bottom: 6px;
-    }
-
-    .card-shell {
-      background: var(--card-bg);
-      border-radius: var(--radius-md);
-      padding: 14px 16px 16px;
+      padding: 6px 10px;
+      font-size: 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-subtle);
       border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    @media (min-width: 600px) {
-      .card-shell {
-        padding: 16px 18px 18px;
-      }
-    }
-
-    .card-header-row {
-      display: flex;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+      gap: 4px;
     }
 
-    .card-type-pill {
-      padding: 4px 10px 5px;
-      border-radius: 999px;
-      background: var(--pill-bg);
-      font-size: 13px;
-      color: var(--pill-text);
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.07);
     }
 
-    .card-content-box {
-      border-radius: 18px;
-      padding: 12px 12px 14px;
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.03), transparent 55%),
-                  rgba(4, 6, 12, 0.82);
-      margin-bottom: 14px;
-      border: 1px solid transparent; /* по умолчанию без рамки */
+    .btn-ghost.small-reset {
+      padding: 4px 10px;
+      font-size: 11px;
     }
 
-    .card-content-box.from-spm {
+    .small-label {
+      font-size: 12px;
+      color: var(--text-subtle);
+    }
+
+    /* КАРТОЧКА */
+    .card {
+      margin-top: 8px;
+      padding: 14px 14px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(6, 9, 22, 0.9);
+      border: 1px solid var(--border-soft);
+      transition: border-color 0.08s ease, box-shadow 0.08s ease;
+    }
+
+    /* Рамка в зависимости от нажатой кнопки */
+    .card.card-from-spm {
       border-color: var(--accent-pink);
+      box-shadow: 0 0 0 1px rgba(255, 79, 191, 0.35);
+    }
+    .card.card-from-overraskelse {
+      border-color: var(--accent-lilac);
+      box-shadow: 0 0 0 1px rgba(179, 136, 255, 0.35);
     }
 
-    .card-content-box.from-overraskelse {
-      border-color: var(--accent-purple-soft);
+    .card-type {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-subtle);
     }
 
     .card-text {
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.5;
+      margin-bottom: 14px;
       white-space: pre-wrap;
       word-wrap: break-word;
     }
 
-    .card-text.empty {
-      color: var(--text-muted);
-    }
-
-    .card-footer-row {
+    .card-footer {
       display: flex;
       justify-content: flex-start;
     }
 
-    .card-footer-row .btn-ghost {
-      max-width: 180px;
+    .btn-back {
+      width: auto;
+      min-width: 120px;
+      padding-inline: 16px;
+      font-size: 14px;
     }
 
-    .error {
-      color: #ff9fa8;
-      font-size: 14px;
-      margin-top: 6px;
+    /* НИЖНИЙ БЛОК СО СЧЁТЧИКОМ — только на главном экране, справа */
+    .bottom-row {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-subtle);
+    }
+
+    .bottom-row span strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    @media (max-width: 400px) {
+      .app {
+        margin: 10px auto 18px;
+        padding: 12px 12px 16px;
+      }
+
+      header h1 {
+        font-size: 18px;
+      }
+
+      .btn {
+        font-size: 15px;
+        padding: 9px 12px;
+      }
+
+      .card-text {
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <div class="panel" id="view-main">
-      <header class="header">
-        <h1 class="title">QCards</h1>
-        <p class="subtitle" id="subtitle">
-          Klar for å skravle litt eller bare ha det gøy sammen? Trykk på en knapp.
-        </p>
-      </header>
+  <div class="app">
+    <header>
+      <h1>QCards</h1>
+      <p id="header-sub">Klar for prat eller bare litt fun? Trykk på en knapp.</p>
+    </header>
 
-      <!-- HOME VIEW -->
-      <main class="main" id="home-view">
-        <div class="btn-col">
-          <button class="btn btn-primary" id="btn-spm">Spørsmål</button>
-          <button class="btn btn-secondary" id="btn-overraskelse">Overraskelse</button>
+    <!-- Экран с двумя кнопками -->
+    <main class="screen active" id="screen-home">
+      <div class="mode-buttons">
+        <button id="btn-spm" class="btn btn-primary">
+          Spørsmål
+        </button>
+        <button id="btn-overraskelse" class="btn btn-secondary">
+          Overraskelse
+        </button>
+      </div>
+
+      <!-- Нижняя строка: счётчик + маленькая кнопка сброса, справа -->
+      <div class="bottom-row">
+        <span class="small-label">
+          Kort i dag: <strong id="stats-count">–</strong>
+        </span>
+        <button id="btn-reset" class="btn-ghost small-reset" type="button">
+          Nullstill
+        </button>
+      </div>
+    </main>
+
+    <!-- Экран с карточкой -->
+    <main class="screen" id="screen-card">
+      <div class="card" id="card-container">
+        <div class="card-type">
+          <span class="pill" id="card-type-pill">–</span>
         </div>
-      </main>
-
-      <!-- CARD VIEW -->
-      <main class="card-root hidden" id="card-view">
-        <div class="card-shell">
-          <div class="card-header-row">
-            <div></div>
-            <div class="card-type-pill" id="card-type-pill">Spørsmål</div>
-          </div>
-
-          <div class="card-content-box" id="card-content-box">
-            <div class="card-text" id="card-text">…</div>
-          </div>
-
-          <div class="card-footer-row">
-            <button class="btn btn-ghost" id="btn-back">
-              <span>Tilbake</span>
-            </button>
-          </div>
-
-          <div class="error hidden" id="card-error"></div>
+        <div class="card-text" id="card-text">
+          Laster kort …
         </div>
-      </main>
-
-      <!-- FOOTER (общий для обоих состояний) -->
-      <footer class="footer">
-        <div class="cards-today-label">
-          Kort i dag:
-          <span class="cards-today-count" id="cards-today-count">0</span>
+        <div class="card-footer">
+          <button id="btn-back" class="btn btn-ghost btn-back">
+            ← Tilbake
+          </button>
         </div>
-        <button class="btn btn-reset" id="btn-reset">Nullstill</button>
-      </footer>
-    </div>
+      </div>
+    </main>
   </div>
 
   <script>
-    // ВСТАВЬ сюда свой URL веб-приложения GAS
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxG4qwvJAu51QRaQgu9FvKnMb5Wi2NMHQK8mnSsRsFlogSElriOFXZ96uOuGwGF6yQ0qg/exec';
+    // ВСТАВЬ СВОЙ WEB APP URL НИЖЕ
+    const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxG4qwvJAu51QRaQgu9FvKnMb5Wi2NMHQK8mnSsRsFlogSElriOFXZ96uOuGwGF6yQ0qg/exec';
 
-    const homeView      = document.getElementById('home-view');
-    const cardView      = document.getElementById('card-view');
-    const subtitleEl    = document.getElementById('subtitle');
-    const cardTextEl    = document.getElementById('card-text');
-    const cardTypePill  = document.getElementById('card-type-pill');
-    const cardBox       = document.getElementById('card-content-box');
-    const cardsTodayEl  = document.getElementById('cards-today-count');
-    const errorEl       = document.getElementById('card-error');
+    const screenHome = document.getElementById('screen-home');
+    const screenCard = document.getElementById('screen-card');
 
-    let lastMode = null; // 'spm' или 'overraskelse'
+    const btnSpm = document.getElementById('btn-spm');
+    const btnOverraskelse = document.getElementById('btn-overraskelse');
+    const btnBack = document.getElementById('btn-back');
+    const btnReset = document.getElementById('btn-reset');
 
-    function setSubtitleForHome() {
-      subtitleEl.textContent =
-        'Klar for å skravle litt eller bare ha det gøy sammen? Trykk på en knapp.';
-    }
+    const cardContainer = document.getElementById('card-container');
+    const cardTypePill = document.getElementById('card-type-pill');
+    const cardText = document.getElementById('card-text');
+    const statsCountEl = document.getElementById('stats-count');
+    const headerSub = document.getElementById('header-sub');
 
-    function setSubtitleForCard() {
-      // На карточке подпись под заголовком не нужна
-      subtitleEl.textContent = '';
-    }
-
-    function showHome() {
-      cardView.classList.add('hidden');
-      homeView.classList.remove('hidden');
-      setSubtitleForHome();
-      clearError();
-    }
-
-    function showCard() {
-      homeView.classList.add('hidden');
-      cardView.classList.remove('hidden');
-      setSubtitleForCard();
-    }
-
-    function setCardBorderByMode() {
-      cardBox.classList.remove('from-spm', 'from-overraskelse');
-      if (lastMode === 'spm') {
-        cardBox.classList.add('from-spm');
-      } else if (lastMode === 'overraskelse') {
-        cardBox.classList.add('from-overraskelse');
+    function setScreen(name) {
+      if (name === 'home') {
+        screenHome.classList.add('active');
+        screenCard.classList.remove('active');
+        // Подзаголовок виден только на главной
+        headerSub.textContent = 'Klar for prat eller bare litt fun? Trykk på en knapp.';
+        headerSub.style.display = 'block';
+      } else if (name === 'card') {
+        screenCard.classList.add('active');
+        screenHome.classList.remove('active');
+        // На карточке подзаголовок убираем
+        headerSub.style.display = 'none';
       }
     }
 
-    function clearError() {
-      errorEl.textContent = '';
-      errorEl.classList.add('hidden');
-    }
+    async function callBackend(params) {
+      const url = new URL(BACKEND_URL);
+      if (params) {
+        Object.keys(params).forEach(key => {
+          url.searchParams.set(key, params[key]);
+        });
+      }
 
-    function showError(msg) {
-      errorEl.textContent = msg;
-      errorEl.classList.remove('hidden');
-    }
-
-    async function fetchJson(url) {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const res = await fetch(url.toString(), { cache: 'no-store' });
+      if (!res.ok) {
+        throw new Error('HTTP ' + res.status);
+      }
       return res.json();
     }
 
-    async function loadStats() {
-      try {
-        const data = await fetchJson(GAS_URL + '?mode=stats');
-        if (data && data.ok && typeof data.count === 'number') {
-          cardsTodayEl.textContent = data.count;
-        }
-      } catch (e) {
-        console.error('Stats error', e);
-      }
-    }
-
-    async function resetStats() {
-      const confirmReset = confirm('Nullstille teller for i dag?');
-      if (!confirmReset) return;
-      try {
-        const data = await fetchJson(GAS_URL + '?mode=reset');
-        if (data && data.ok) {
-          await loadStats();
-        }
-      } catch (e) {
-        console.error('Reset error', e);
+    function setCardVisualMode(mode) {
+      cardContainer.classList.remove('card-from-spm', 'card-from-overraskelse');
+      if (mode === 'spm') {
+        cardContainer.classList.add('card-from-spm');
+      } else if (mode === 'overraskelse') {
+        cardContainer.classList.add('card-from-overraskelse');
       }
     }
 
     async function loadCard(mode) {
-      lastMode = mode;
-      clearError();
-
       try {
-        const data = await fetchJson(GAS_URL + '?mode=' + encodeURIComponent(mode));
+        cardText.textContent = 'Laster kort …';
+        setCardVisualMode(mode);
+        setScreen('card');
+
+        const data = await callBackend({ mode });
+
         if (!data.ok) {
-          showError(data.error || 'Ukjent feil.');
+          cardTypePill.textContent = 'Feil';
+          cardText.textContent = data.error || 'Ukjent feil';
           return;
         }
 
-        const text = data.text || '';
-        const typeName = data.type || '';
+        // В пузыре только тип карточки
+        cardTypePill.textContent = data.type || '–';
+        cardText.textContent = data.text || '';
 
-        cardTextEl.textContent = text || 'Ingen tekst.';
-        cardTextEl.classList.toggle('empty', !text);
-        cardTypePill.textContent = typeName || '–';
+        // Обновим счётчик (он виден только на главном экране, но пусть будет актуален)
+        updateStats();
+      } catch (err) {
+        cardTypePill.textContent = 'Feil';
+        cardText.textContent = 'Kunne ikke hente kort. Prøv igjen.';
+        console.log(err);
+      }
+    }
 
-        setCardBorderByMode();
-        showCard();
-        await loadStats();
-      } catch (e) {
-        console.error('Card error', e);
-        showError('Noe gikk galt. Prøv igjen.');
+    async function updateStats() {
+      try {
+        const data = await callBackend({ mode: 'stats' });
+        if (data.ok && typeof data.count === 'number') {
+          statsCountEl.textContent = data.count;
+        }
+      } catch (err) {
+        console.log('stats error', err);
+      }
+    }
+
+    async function resetToday() {
+      try {
+        await callBackend({ mode: 'reset' });
+        await updateStats();
+      } catch (err) {
+        console.log('reset error', err);
       }
     }
 
     // События
-    document.getElementById('btn-spm').addEventListener('click', () => {
-      loadCard('spm');
-    });
+    btnSpm.addEventListener('click', () => loadCard('spm'));
+    btnOverraskelse.addEventListener('click', () => loadCard('overraskelse'));
+    btnBack.addEventListener('click', () => setScreen('home'));
+    btnReset.addEventListener('click', resetToday);
 
-    document.getElementById('btn-overraskelse').addEventListener('click', () => {
-      loadCard('overraskelse');
-    });
-
-    document.getElementById('btn-back').addEventListener('click', () => {
-      showHome();
-    });
-
-    document.getElementById('btn-reset').addEventListener('click', () => {
-      resetStats();
-    });
-
-    // Старт
-    showHome();
-    loadStats();
+    // При загрузке сразу подгружаем статистику
+    updateStats();
   </script>
 </body>
 </html>
