@@ -17,11 +17,10 @@
       --accent-lilac: #b388ff;
       --accent-lilac-hover: #9b6cff;
 
-      /* 🟢 Цвета текста и бордеров */
+      /* 🟢 Цвета текста и бордеров (серый сделал чуть светлее) */
       --border-soft: rgba(255, 255, 255, 0.08);
       --text-main: #ffffff;
-      /* светлее серый для подписей */
-      --text-subtle: rgba(255, 255, 255, 0.6);
+      --text-subtle: rgba(255, 255, 255, 0.6); /* 🟢 тонкий текст/лейблы */
 
       /* 🟢 Тёмная «призрачная» кнопка */
       --btn-dark: #141827;
@@ -58,6 +57,9 @@
         var(--bg-card);
       box-shadow: var(--shadow-soft);
       border: 1px solid var(--border-soft);
+
+      display: flex;
+      flex-direction: column;
     }
 
     header {
@@ -75,6 +77,14 @@
       margin: 18px 0 0;            /* 🟢 «пустая строка» между h1 и подзаголовком */
       font-size: 16px;             /* 🟢 размер подзаголовка */
       color: var(--text-subtle);
+    }
+
+    /* 🟠 Основная зона, где живут оба экрана (home+card).
+          min-height задаёт ЦЕЛЕВУЮ высоту, чтобы не было прыжков. */
+    .main-area {
+      min-height: 320px;           /* 🟠 играй этой высотой для ощущения «полного экрана» */
+      display: flex;
+      flex-direction: column;
     }
 
     .screen {
@@ -154,7 +164,7 @@
 
     .btn-ghost.small-reset {
       padding: 4px 10px;           /* 🟢 размер маленьких кнопок в футере */
-      font-size: 18px;             /* чтобы совпадать с текстом Kort i dag */
+      font-size: 18px;             /* 🟢 Кегль Nullstill (и мы подтянем под него Kort i dag) */
     }
 
     .btn-ghost:disabled {
@@ -163,8 +173,13 @@
     }
 
     .small-label {
-      font-size: 18px;             /* тот же размер, что и на кнопке Nullstill */
+      font-size: 12px;
       color: var(--text-subtle);
+    }
+
+    /* Внутри футера делаем подпись таким же кеглем, как кнопка */
+    .bottom-row .small-label {
+      font-size: 18px;             /* 🟢 Kort i dag: X такого же размера, как Nullstill */
     }
 
     /* КАРТОЧКА */
@@ -211,25 +226,43 @@
       margin-bottom: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
+
+      min-height: 100px;           /* 🟠 минимальная высота текстового блока,
+                                       чтобы "Laster kort…" и короткие вопросы
+                                       не прыгали по высоте */
+      display: flex;
+      align-items: flex-start;
     }
 
-    /* Кнопка «Tilbake» — отдельный блок под карточкой, по центру */
+    /* Кнопка «Tilbake» — отдельный блок под карточкой, ПО ЦЕНТРУ и крупнее */
     .card-actions {
       margin-top: 20px;            /* 🟢 расстояние между рамкой карточки и кнопкой назад */
       display: flex;
-      justify-content: center;
+      justify-content: center;     /* центрируем кнопку */
     }
 
     .btn-back {
       width: auto;
-      min-width: 150px;
-      padding-inline: 20px;
+      min-width: 160px;
+      padding-inline: 22px;
       font-size: 18px;             /* 🟢 размер текста Tilbake */
+    }
+
+    /* Используем заливку как у secondary, чтобы она была заметной */
+    .btn-back.btn-secondary {
+      background: var(--accent-lilac);
+      color: #1b1030;
+      box-shadow: 0 8px 18px rgba(179, 136, 255, 0.45);
+    }
+
+    .btn-back.btn-secondary:hover {
+      background: var(--accent-lilac-hover);
     }
 
     /* НИЖНИЙ БЛОК СО СЧЁТЧИКОМ + Fjern — общий футер */
     .bottom-row {
-      margin-top: 200px;            /* 🟠 ОТСТУП ОТ ОСНОВНОГО КОНТЕНТА ДО ФУТЕРА (играй здесь) */
+      margin-top: 40px;            /* 🟠 отступ под основным контентом до футера.
+                                      Увеличишь/уменьшишь, если захочешь ещё больше "воздуха". */
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -278,35 +311,38 @@
       <p id="header-sub">Klar for prat eller bare litt fun? Trykk på en knapp.</p>
     </header>
 
-    <!-- Экран с двумя кнопками -->
-    <main class="screen active" id="screen-home">
-      <div class="mode-buttons">
-        <button id="btn-spm" class="btn btn-primary">
-          Spørsmål
-        </button>
-        <button id="btn-overraskelse" class="btn btn-secondary">
-          Overraskelse
-        </button>
-      </div>
-    </main>
+    <!-- 🟠 Общая зона для обоих экранов: высота стабилизирована через .main-area -->
+    <div class="main-area">
+      <!-- Экран с двумя кнопками -->
+      <main class="screen active" id="screen-home">
+        <div class="mode-buttons">
+          <button id="btn-spm" class="btn btn-primary">
+            Spørsmål
+          </button>
+          <button id="btn-overraskelse" class="btn btn-secondary">
+            Overraskelse
+          </button>
+        </div>
+      </main>
 
-    <!-- Экран с карточкой -->
-    <main class="screen" id="screen-card">
-      <div class="card" id="card-container">
-        <div class="card-type">
-          <span class="pill" id="card-type-pill">–</span>
+      <!-- Экран с карточкой -->
+      <main class="screen" id="screen-card">
+        <div class="card" id="card-container">
+          <div class="card-type">
+            <span class="pill" id="card-type-pill">–</span>
+          </div>
+          <div class="card-text" id="card-text">
+            Laster kort …
+          </div>
         </div>
-        <div class="card-text" id="card-text">
-          Laster kort …
+        <div class="card-actions">
+          <!-- Tilbake теперь залитая сиреневая, по центру -->
+          <button id="btn-back" class="btn btn-secondary btn-back">
+            ← Tilbake
+          </button>
         </div>
-      </div>
-      <div class="card-actions">
-        <!-- делаем Tilbake заметной сиреневой кнопкой -->
-        <button id="btn-back" class="btn btn-secondary btn-back">
-          ← Tilbake
-        </button>
-      </div>
-    </main>
+      </main>
+    </div>
 
     <!-- Общий футер: Fjern + Kort i dag + Nullstill -->
     <div class="bottom-row">
@@ -327,7 +363,7 @@
   </div>
 
   <script>
-    // 🟢 ВСТАВЬ СВОЙ WEB APP URL НИЖЕ (у тебя уже стоит рабочий)
+    // 🟢 ВСТАВЬ СВОЙ WEB APP URL НИЖЕ (сейчас уже стоит твой)
     const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxG4qwvJAu51QRaQgu9FvKnMb5Wi2NMHQK8mnSsRsFlogSElriOFXZ96uOuGwGF6yQ0qg/exec';
 
     const screenHome = document.getElementById('screen-home');
