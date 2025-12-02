@@ -57,7 +57,7 @@
       max-width: 100%;            /* убрали 480px */
       min-height: 100vh;          /* фиксируем высоту, чтобы не прыгала */
       margin: 0;
-      padding: 20px 20px 50px;    /* 🟢 общие отступы внутри «карточки-приложения» 18px 16px 24px*/
+      padding: 50px 20px 50px;    /* 🟢 общие отступы внутри «карточки-приложения» 18px 16px 24px*/
       border-radius: 0;           /* можно вернуть скругление, если захочешь */
       background:
         radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
@@ -72,17 +72,17 @@
 
     header {
       text-align: center;         /* 🟢 выравнивание заголовка по центру */
-      margin-bottom: 30px;        /* 🟢 расстояние от шапки до контента */
+      margin-bottom: 50px;        /* 🟢 расстояние от шапки до контента */
     }
 
     header h1 {
-      font-size: 40px;            /* 🟢 размер заголовка */
+      font-size: 60px;            /* 🟢 размер заголовка */
       margin: 0;
       letter-spacing: 0.02em;
     }
 
     header p {
-      margin: 30px 0 0;           /* 🟢 «пустая строка» между h1 и подзаголовком */
+      margin: 50px 0 0;           /* 🟢 «пустая строка» между h1 и подзаголовком */
       font-size: 30px;            /* 🟢 размер подзаголовка */
       color: var(--text-subtle);
     }
@@ -107,8 +107,8 @@
     .mode-buttons {
       display: flex;
       flex-direction: column;
-      gap: 40px;                  /* 🟢 расстояние между двумя большими кнопками */
-      margin: 20px 0 20px;        /* 🟢 отступы сверху/снизу блока с кнопками */
+      gap: 30px;                  /* 🟢 расстояние между двумя большими кнопками */
+      margin: 30px 0 30px;        /* 🟢 отступы сверху/снизу блока с кнопками */
     }
 
     .btn {
@@ -116,8 +116,8 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 30px 20px;         /* 🟢 высота кнопок */
-      font-size: 40px;            /* 🟢 размер текста на кнопках */
+      padding: 60px 30px;         /* 🟢 высота кнопок */
+      font-size: 50px;            /* 🟢 размер текста на кнопках */
       font-weight: 600;
       border-radius: var(--radius-md);
       border: none;
@@ -182,13 +182,13 @@
     }
 
     .small-label {
-      font-size: 18px;
+      font-size: 30px;
       color: var(--text-subtle);
     }
 
     /* КАРТОЧКА */
     .card {
-      padding: 14px 14px 12px;
+      padding: 20px 20px 20px;
       border-radius: var(--radius-md);
       background: rgba(6, 9, 22, 0.9);
       border: 1px solid var(--border-soft);
@@ -206,7 +206,7 @@
     }
 
     .card-type {
-      font-size: 13px;
+      font-size: 30px;
       font-weight: 500;
       margin-bottom: 8px;
       color: var(--text-subtle);
@@ -218,7 +218,7 @@
     .pill {
       padding: 2px 8px;
       border-radius: 999px;
-      font-size: 20px;            /* 🟢 размер типа в «пузыре» */
+      font-size: 40px;            /* 🟢 размер типа в «пузыре» */
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-subtle);
@@ -230,20 +230,20 @@
       margin-bottom: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
-      min-height: 300px;          /* 🟠 минимальная высота текста, чтобы не прыгало при загрузке */
+      min-height: 500px;          /* 🟠 минимальная высота текста, чтобы не прыгало при загрузке */
     }
 
     /* Кнопка «Tilbake» — отдельный блок под карточкой, по центру и яркая */
     .card-actions {
-      margin-top: 20px;
+      margin-top: 50px;
       display: flex;
       justify-content: center;
     }
 
     .btn-back {
       min-width: 160px;
-      padding-inline: 22px;
-      font-size: 18px;
+      padding-inline: 40px;
+      font-size: 30px;
       font-weight: 600;
       background: var(--accent-lilac);      /* цветная кнопка */
       color: #1b1030;
@@ -261,7 +261,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      font-size: 18px;
+      font-size: 30px;
       color: var(--text-subtle);
     }
 
