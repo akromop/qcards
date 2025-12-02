@@ -20,8 +20,8 @@
       /* 🟢 Цвета текста и бордеров */
       --border-soft: rgba(255, 255, 255, 0.08);
       --text-main: #ffffff;
-      /* серый сделал чуть светлее */
-      --text-subtle: rgba(255, 255, 255, 0.6);
+      /* серый чуть светлее */
+      --text-subtle: rgba(255, 255, 255, 0.65);
 
       /* 🟢 Тёмная «призрачная» кнопка */
       --btn-dark: #141827;
@@ -32,6 +32,9 @@
       --radius-md: 12px;
       --radius-sm: 999px;
       --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+
+      /* 🟠 отступ сверху до футера (общая высота экрана) */
+      --footer-gap: 200px;
     }
 
     * {
@@ -39,26 +42,21 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
-      margin: 0;
-      height: 100%;
-    }
-
     body {
+      margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
       background: var(--bg-body);
       color: var(--text-main);
+      font-size: 20px; /* 🟢 базовый размер текста */
     }
 
     .app {
-      /* раскрываем на весь экран телефона */
       width: 100%;
-      max-width: 100%;            /* убрали 480px */
-      min-height: 100vh;          /* фиксируем высоту, чтобы не прыгала */
+      min-height: 100vh; /* тянется на высоту экрана */
       margin: 0;
-      padding: 18px 16px 24px;    /* 🟢 общие отступы внутри «карточки-приложения» */
-      border-radius: 0;           /* можно вернуть скругление, если захочешь */
+      padding: 18px 16px 24px; /* 🟢 общие отступы внутри приложения */
+      border-radius: 0;
       background:
         radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
         radial-gradient(circle at bottom right, rgba(179, 136, 255, 0.16), transparent 55%),
@@ -71,33 +69,24 @@
     }
 
     header {
-      text-align: center;         /* 🟢 выравнивание заголовка по центру */
-      margin-bottom: 24px;        /* 🟢 расстояние от шапки до контента */
+      text-align: center;          /* 🟢 заголовок по центру */
+      margin-bottom: 24px;         /* 🟢 расстояние от шапки до контента */
     }
 
     header h1 {
-      font-size: 22px;            /* 🟢 размер заголовка */
+      font-size: 26px;             /* 🟢 размер заголовка */
       margin: 0;
       letter-spacing: 0.02em;
     }
 
     header p {
-      margin: 18px 0 0;           /* 🟢 «пустая строка» между h1 и подзаголовком */
-      font-size: 16px;            /* 🟢 размер подзаголовка */
+      margin: 18px 0 0;            /* 🟢 «пустая строка» между h1 и подзаголовком */
+      font-size: 18px;             /* 🟢 размер подзаголовка */
       color: var(--text-subtle);
-    }
-
-    /* основной контент (экраны) заполняет всё пространство над футером */
-    .content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
     }
 
     .screen {
       display: none;
-      /* одинаковая минимальная высота, чтобы home/card не прыгали между собой */
-      min-height: 380px;          /* 🟠 можно менять высоту «рабочей зоны» */
     }
     .screen.active {
       display: block;
@@ -107,8 +96,8 @@
     .mode-buttons {
       display: flex;
       flex-direction: column;
-      gap: 18px;                  /* 🟢 расстояние между двумя большими кнопками */
-      margin: 20px 0 20px;        /* 🟢 отступы сверху/снизу блока с кнопками */
+      gap: 22px;                   /* 🟢 расстояние между двумя большими кнопками */
+      margin: 20px 0 20px;         /* 🟢 отступы сверху/снизу блока с кнопками */
     }
 
     .btn {
@@ -116,8 +105,8 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 18px 14px;         /* 🟢 высота кнопок */
-      font-size: 20px;            /* 🟢 размер текста на кнопках */
+      padding: 24px 16px;          /* 🟢 высота кнопок */
+      font-size: 24px;             /* 🟢 размер текста на кнопках */
       font-weight: 600;
       border-radius: var(--radius-md);
       border: none;
@@ -137,7 +126,7 @@
     .btn-primary {
       background: var(--accent-pink);
       color: #250815;
-      box-shadow: 0 8px 20px rgba(255, 79, 191, 0.4);
+      box-shadow: 0 10px 24px rgba(255, 79, 191, 0.5);
     }
 
     .btn-primary:hover {
@@ -147,7 +136,7 @@
     .btn-secondary {
       background: var(--accent-lilac);
       color: #1b1030;
-      box-shadow: 0 8px 18px rgba(179, 136, 255, 0.45);
+      box-shadow: 0 10px 22px rgba(179, 136, 255, 0.55);
     }
 
     .btn-secondary:hover {
@@ -155,8 +144,8 @@
     }
 
     .btn-ghost {
-      padding: 6px 14px;
-      font-size: 14px;
+      padding: 8px 14px;
+      font-size: 18px;             /* 🟢 размер текста на «призрачных» кнопках */
       border-radius: var(--radius-sm);
       background: rgba(255, 255, 255, 0.04);
       color: var(--text-subtle);
@@ -172,17 +161,16 @@
     }
 
     .btn-ghost.small-reset {
-      padding: 4px 12px;          /* 🟢 размер маленьких кнопок в футере */
-      font-size: 18px;            /* шрифт как у Kort i dag */
+      padding: 6px 14px;           /* 🟢 размер маленьких кнопок в футере */
     }
 
     .btn-ghost:disabled {
-      opacity: 0.45;              /* 🟢 визуальное состояние disabled */
+      opacity: 0.45;               /* 🟢 disabled */
       cursor: default;
     }
 
     .small-label {
-      font-size: 18px;
+      font-size: 18px;             /* 🟢 тот же размер, что и на кнопке Nullstill */
       color: var(--text-subtle);
     }
 
@@ -206,9 +194,9 @@
     }
 
     .card-type {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       color: var(--text-subtle);
       display: flex;
       justify-content: flex-end;   /* тип только справа */
@@ -216,47 +204,42 @@
     }
 
     .pill {
-      padding: 2px 8px;
+      padding: 4px 10px;
       border-radius: 999px;
-      font-size: 11px;            /* 🟢 размер типа в «пузыре» */
+      font-size: 14px;             /* 🟢 размер типа в «пузыре» */
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-subtle);
     }
 
     .card-text {
-      font-size: 24px;            /* 🟢 размер текста карточки */
-      line-height: 1.55;          /* 🟢 межстрочный интервал карточки */
-      margin-bottom: 0;
+      font-size: 24px;             /* 🟢 размер текста карточки */
+      line-height: 1.55;           /* 🟢 межстрочный интервал карточки */
+      margin: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
-      min-height: 120px;          /* 🟠 минимальная высота текста, чтобы не прыгало при загрузке */
+      min-height: 4.5em;           /* 🟠 минимальная высота текста, чтобы не прыгала карточка */
     }
 
-    /* Кнопка «Tilbake» — отдельный блок под карточкой, по центру и яркая */
+    /* Кнопка «Tilbake» — отдельный блок под карточкой, по центру и крупная */
     .card-actions {
-      margin-top: 20px;
+      margin-top: 24px;            /* 🟠 расстояние между рамкой карточки и Tilbake */
       display: flex;
       justify-content: center;
     }
 
     .btn-back {
-      min-width: 160px;
-      padding-inline: 22px;
-      font-size: 18px;
-      font-weight: 600;
-      background: var(--accent-lilac);      /* цветная кнопка */
+      min-width: 70%;              /* 🟢 ширина Tilbake */
+      padding: 18px 20px;
+      font-size: 22px;             /* 🟢 размер текста Tilbake */
+      background: var(--accent-lilac);
       color: #1b1030;
-      box-shadow: 0 8px 18px rgba(179, 136, 255, 0.45);
-      border-radius: var(--radius-md);
-    }
-    .btn-back:hover {
-      background: var(--accent-lilac-hover);
+      box-shadow: 0 10px 22px rgba(179, 136, 255, 0.55);
     }
 
-    /* ОБЩИЙ ФУТЕР: Fjern + Kort i dag + Nullstill */
+    /* ФУТЕР: Fjern + Kort i dag + Nullstill */
     .bottom-row {
-      margin-top: 200px;          /* 🟠 расстояние от основного контента до футера */
+      margin-top: var(--footer-gap); /* 🟠 вот тут ты уже ставила 200px */
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -276,12 +259,26 @@
       font-weight: 600;
     }
 
-    @media (min-width: 900px) {
-      /* чтобы на большом экране не было слишком растянуто */
-      .app {
-        width: 520px;
-        margin: 24px auto;
-        border-radius: var(--radius-lg);
+    @media (max-width: 400px) {
+      body {
+        font-size: 18px;
+      }
+
+      header h1 {
+        font-size: 24px;
+      }
+
+      header p {
+        font-size: 16px;
+      }
+
+      .btn {
+        font-size: 22px;
+        padding: 20px 14px;
+      }
+
+      .card-text {
+        font-size: 22px;
       }
     }
   </style>
@@ -294,36 +291,34 @@
       <p id="header-sub">Klar for prat eller bare litt fun? Trykk på en knapp.</p>
     </header>
 
-    <div class="content">
-      <!-- Экран с двумя кнопками -->
-      <main class="screen active" id="screen-home">
-        <div class="mode-buttons">
-          <button id="btn-spm" class="btn btn-primary">
-            Spørsmål
-          </button>
-          <button id="btn-overraskelse" class="btn btn-secondary">
-            Overraskelse
-          </button>
-        </div>
-      </main>
+    <!-- Экран с двумя кнопками -->
+    <main class="screen active" id="screen-home">
+      <div class="mode-buttons">
+        <button id="btn-spm" class="btn btn-primary">
+          Spørsmål
+        </button>
+        <button id="btn-overraskelse" class="btn btn-secondary">
+          Overraskelse
+        </button>
+      </div>
+    </main>
 
-      <!-- Экран с карточкой -->
-      <main class="screen" id="screen-card">
-        <div class="card" id="card-container">
-          <div class="card-type">
-            <span class="pill" id="card-type-pill">–</span>
-          </div>
-          <div class="card-text" id="card-text">
-            Laster kort …
-          </div>
+    <!-- Экран с карточкой -->
+    <main class="screen" id="screen-card">
+      <div class="card" id="card-container">
+        <div class="card-type">
+          <span class="pill" id="card-type-pill">–</span>
         </div>
-        <div class="card-actions">
-          <button id="btn-back" class="btn btn-back">
-            ← Tilbake
-          </button>
+        <div class="card-text" id="card-text">
+          Laster kort …
         </div>
-      </main>
-    </div>
+      </div>
+      <div class="card-actions">
+        <button id="btn-back" class="btn btn-back">
+          ← Tilbake
+        </button>
+      </div>
+    </main>
 
     <!-- Общий футер: Fjern + Kort i dag + Nullstill -->
     <div class="bottom-row">
@@ -369,14 +364,19 @@
       if (name === 'home') {
         screenHome.classList.add('active');
         screenCard.classList.remove('active');
+        // подзаголовок виден только на главной
+        headerSub.textContent = 'Klar for prat eller bare litt fun? Trykk på en knapp.';
         headerSub.style.display = 'block';
 
+        // на главном экране отключаем Fjern
         currentCard = null;
         btnRemove.disabled = true;
       } else if (name === 'card') {
         screenCard.classList.add('active');
         screenHome.classList.remove('active');
+        // на карточке подзаголовок убираем
         headerSub.style.display = 'none';
+        // Fjern включаем только после успешной загрузки карточки
       }
     }
 
@@ -420,15 +420,18 @@
           return;
         }
 
+        // В пузыре только тип карточки
         cardTypePill.textContent = data.type || '–';
         cardText.textContent = data.text || '';
 
+        // Сохраняем текущую карточку для Fjern
         currentCard = {
           type: data.type,
           id: data.id
         };
         btnRemove.disabled = false;
 
+        // Обновим счётчик (он виден в футере)
         updateStats();
       } catch (err) {
         cardTypePill.textContent = 'Feil';
@@ -487,16 +490,18 @@
         console.log('remove error', err);
       } finally {
         btnRemove.textContent = 'Fjern';
-        btnRemove.disabled = true;
+        btnRemove.disabled = true; // ждём новую карточку
       }
     }
 
+    // События
     btnSpm.addEventListener('click', () => loadCard('spm'));
     btnOverraskelse.addEventListener('click', () => loadCard('overraskelse'));
     btnBack.addEventListener('click', () => setScreen('home'));
     btnReset.addEventListener('click', resetToday);
     btnRemove.addEventListener('click', removeCurrentCard);
 
+    // При загрузке
     setScreen('home');
     updateStats();
   </script>
