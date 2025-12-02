@@ -67,7 +67,7 @@
       max-width: 100%;
       min-height: 100vh;
       margin: 0;
-      padding: 20px 10px 20px;    /* 🟢 общие отступы внутри «карточки-приложения» */
+      padding: 40px 12px 40px;    /* 🟢 общие отступы внутри «карточки-приложения» */
       border-radius: 0;
       background:
         radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
@@ -117,7 +117,7 @@
     .mode-buttons {
       display: flex;
       flex-direction: column;
-      gap: 20px;                  /* 🟢 расстояние между двумя большими кнопками */
+      gap: 18px;                  /* 🟢 расстояние между двумя большими кнопками */
       margin: 10px 0 10px;        /* 🟢 отступы сверху/снизу блока с кнопками */
     }
 
@@ -198,10 +198,10 @@
 
     /* КАРТОЧКА */
     .card {
-      padding: 20px 20px 20px;
+      padding: 15px 15px 15px;
       border-radius: var(--radius-md);
       background: rgba(6, 9, 22, 0.9);
-      border: 1px solid var(--border-soft);
+      border: 2px solid var(--border-soft);
       transition: border-color 0.08s ease, box-shadow 0.08s ease;
     }
 
@@ -231,20 +231,21 @@
       margin-bottom: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
-      min-height: 200px;          /* 🟠 минимальная высота текста, чтобы не прыгало при загрузке */
+      min-height: 300px;          /* 🟠 минимальная высота текста, чтобы не прыгало при загрузке */
     }
 
     /* Кнопка «Tilbake» — отдельный блок под карточкой, по центру и яркая */
     .card-actions {
-      margin-top: 20px;
+      width: 50%;
+      margin-top: 18px;
       display: flex;
       justify-content: center;
     }
 
     .btn-back {
-      min-width: 160px;
-      padding-inline: 18px;
-      font-size: 20px;
+      min-width: 100px;
+      padding-inline: 10px;
+      font-size: 30px;
       font-weight: 600;
       background: var(--accent-lilac);
       color: #1b1030;
