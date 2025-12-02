@@ -3,7 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <title>QCards</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- 🔵 ВАЖНО: правильный viewport для iPhone, чтобы растягивалось на весь экран -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <!-- 🔵 iOS: открывать как отдельное "приложение", без адресной строки -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="QCards">
+
+  <!-- 🔵 Иконка для ярлыка (можно поменять путь на свой файл 180×180 PNG) -->
+  <link rel="apple-touch-icon" href="icon-180.png">
+
   <style>
     :root {
       /* 🟢 Цвета фона и карточки */
@@ -56,7 +67,7 @@
       max-width: 100%;
       min-height: 100vh;
       margin: 0;
-      padding: 50px 20px 50px;    /* 🟢 общие отступы внутри приложения */
+      padding: 50px 20px 50px;    /* 🟢 общие отступы внутри «карточки-приложения» */
       border-radius: 0;
       background:
         radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
@@ -70,19 +81,19 @@
     }
 
     header {
-      text-align: center;          /* 🟢 выравнивание заголовка по центру */
-      margin-bottom: 50px;         /* 🟢 расстояние от шапки до контента */
+      text-align: center;         /* 🟢 выравнивание заголовка по центру */
+      margin-bottom: 50px;        /* 🟢 расстояние от шапки до контента */
     }
 
     header h1 {
-      font-size: 50px;             /* 🟢 размер заголовка */
+      font-size: 50px;            /* 🟢 размер заголовка */
       margin: 0;
       letter-spacing: 0.02em;
     }
 
     header p {
-      margin: 50px 0 0;            /* 🟢 «пустая строка» между h1 и подзаголовком */
-      font-size: 30px;             /* 🟢 размер подзаголовка */
+      margin: 50px 0 0;           /* 🟢 «пустая строка» между h1 и подзаголовком */
+      font-size: 30px;            /* 🟢 размер подзаголовка */
       color: var(--text-subtle);
     }
 
@@ -96,7 +107,7 @@
     .screen {
       display: none;
       /* одинаковая минимальная высота, чтобы home/card не прыгали между собой */
-      min-height: 500px;           /* 🟠 высота «рабочей зоны» */
+      min-height: 500px;          /* 🟠 можно менять высоту «рабочей зоны» */
     }
     .screen.active {
       display: block;
@@ -106,8 +117,8 @@
     .mode-buttons {
       display: flex;
       flex-direction: column;
-      gap: 30px;                   /* 🟢 расстояние между двумя большими кнопками */
-      margin: 30px 0 30px;         /* 🟢 отступы сверху/снизу блока с кнопками */
+      gap: 30px;                  /* 🟢 расстояние между двумя большими кнопками */
+      margin: 30px 0 30px;        /* 🟢 отступы сверху/снизу блока с кнопками */
     }
 
     .btn {
@@ -115,8 +126,8 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 60px 30px;          /* 🟢 высота кнопок */
-      font-size: 50px;             /* 🟢 размер текста на кнопках */
+      padding: 60px 30px;         /* 🟢 высота кнопок */
+      font-size: 50px;            /* 🟢 размер текста на кнопках */
       font-weight: 600;
       border-radius: var(--radius-md);
       border: none;
@@ -171,12 +182,12 @@
     }
 
     .btn-ghost.small-reset {
-      padding: 20px 40px;          /* 🟢 размер маленьких кнопок в футере */
-      font-size: 30px;             /* шрифт как у Kort i dag */
+      padding: 20px 40px;         /* 🟢 размер маленьких кнопок в футере */
+      font-size: 30px;            /* шрифт как у Kort i dag */
     }
 
     .btn-ghost:disabled {
-      opacity: 0.45;               /* 🟢 визуальное состояние disabled */
+      opacity: 0.45;              /* 🟢 визуальное состояние disabled */
       cursor: default;
     }
 
@@ -204,9 +215,8 @@
       box-shadow: 0 0 0 1px rgba(179, 136, 255, 0.35);
     }
 
-    /* ⚫️ Тип карточки — без пузыря, шрифт как в футере */
     .card-type {
-      font-size: 30px;
+      font-size: 18px;
       font-weight: 500;
       margin-bottom: 8px;
       color: var(--text-subtle);
@@ -215,41 +225,26 @@
       align-items: center;
     }
 
-    /* ⚫️ Стиль пузыря больше не используется (span без класса),
-       можно удалить, если захочешь
-    */
-    .pill {
-      padding: 10px 20px;
-      border-radius: 999px;
-      font-size: 30px;
-      background: transparent;
-      border: none;
-      color: var(--text-subtle);
-    }
-
     .card-text {
-      font-size: 50px;             /* 🟢 размер текста карточки */
-      line-height: 1.55;           /* 🟢 межстрочный интервал карточки */
+      font-size: 50px;            /* 🟢 размер текста карточки */
+      line-height: 1.55;
       margin-bottom: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
-      min-height: 500px;           /* 🟠 минимальная высота текста, чтобы не прыгало при загрузке */
+      min-height: 500px;          /* 🟠 минимальная высота текста, чтобы не прыгало при загрузке */
     }
 
-    /* Кнопка «Tilbake» — отдельный блок под карточкой */
+    /* Кнопка «Tilbake» — отдельный блок под карточкой, по центру и яркая */
     .card-actions {
       margin-top: 30px;
       display: flex;
       justify-content: center;
     }
 
-    /* ⚫️ Tilbake меньшего размера и не на всю ширину */
     .btn-back {
-      width: 50%;                  /* примерно половина ширины блока */
-      max-width: 260px;            /* ограничение сверху */
       min-width: 160px;
-      padding: 30px 20px;
-      font-size: 30px;
+      padding-inline: 18px;
+      font-size: 40px;
       font-weight: 600;
       background: var(--accent-lilac);
       color: #1b1030;
@@ -262,7 +257,7 @@
 
     /* ОБЩИЙ ФУТЕР: Fjern + Kort i dag + Nullstill */
     .bottom-row {
-      margin-top: 200px;           /* 🟠 расстояние от основного контента до футера */
+      margin-top: 200px;          /* 🟠 расстояние от основного контента до футера */
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -317,7 +312,6 @@
       <main class="screen" id="screen-card">
         <div class="card" id="card-container">
           <div class="card-type">
-            <!-- ⚫️ без класса pill, просто текст типа -->
             <span id="card-type-pill">–</span>
           </div>
           <div class="card-text" id="card-text">
