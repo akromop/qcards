@@ -17,10 +17,10 @@
       --accent-lilac: #b388ff;
       --accent-lilac-hover: #9b6cff;
 
-      /* 🟢 Цвета текста и бордеров (серый сделал чуть светлее) */
+      /* 🟢 Цвета текста и бордеров (серый сделал светлее) */
       --border-soft: rgba(255, 255, 255, 0.08);
       --text-main: #ffffff;
-      --text-subtle: rgba(255, 255, 255, 0.6); /* 🟢 тонкий текст/лейблы */
+      --text-subtle: rgba(255, 255, 255, 0.6);
 
       /* 🟢 Тёмная «призрачная» кнопка */
       --btn-dark: #141827;
@@ -31,6 +31,12 @@
       --radius-md: 12px;
       --radius-sm: 999px;
       --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+
+      /* 🟠 Минимальная высота экрана (home/card), чтобы не прыгала высота */
+      --screen-min-height: 340px;
+
+      /* 🟠 Отступ от основного контента до футера (одинаковый для обоих экранов) */
+      --footer-gap: 200px;
     }
 
     * {
@@ -57,9 +63,6 @@
         var(--bg-card);
       box-shadow: var(--shadow-soft);
       border: 1px solid var(--border-soft);
-
-      display: flex;
-      flex-direction: column;
     }
 
     header {
@@ -79,16 +82,9 @@
       color: var(--text-subtle);
     }
 
-    /* 🟠 Основная зона, где живут оба экрана (home+card).
-          min-height задаёт ЦЕЛЕВУЮ высоту, чтобы не было прыжков. */
-    .main-area {
-      min-height: 380px;           /* 🟠 играй этой высотой для ощущения «полного экрана» */
-      display: flex;
-      flex-direction: column;
-    }
-
     .screen {
       display: none;
+      min-height: var(--screen-min-height); /* 🟠 фиксируем минимальную высоту */
     }
     .screen.active {
       display: block;
@@ -164,22 +160,12 @@
 
     .btn-ghost.small-reset {
       padding: 4px 10px;           /* 🟢 размер маленьких кнопок в футере */
-      font-size: 18px;             /* 🟢 Кегль Nullstill (и мы подтянем под него Kort i dag) */
+      font-size: 18px;             /* 18px как у Nullstill / Kort i dag */
     }
 
     .btn-ghost:disabled {
       opacity: 0.45;               /* 🟢 визуальное состояние disabled */
       cursor: default;
-    }
-
-    .small-label {
-      font-size: 12px;
-      color: var(--text-subtle);
-    }
-
-    /* Внутри футера делаем подпись таким же кеглем, как кнопка */
-    .bottom-row .small-label {
-      font-size: 18px;             /* 🟢 Kort i dag: X такого же размера, как Nullstill */
     }
 
     /* КАРТОЧКА */
@@ -226,48 +212,39 @@
       margin-bottom: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
-
-      min-height: 100px;           /* 🟠 минимальная высота текстового блока,
-                                       чтобы "Laster kort…" и короткие вопросы
-                                       не прыгали по высоте */
-      display: flex;
-      align-items: flex-start;
     }
 
-    /* Кнопка «Tilbake» — отдельный блок под карточкой, ПО ЦЕНТРУ и крупнее */
+    /* Кнопка «Tilbake» — отдельный блок под карточкой, по центру, заметная */
     .card-actions {
-      margin-top: 20px;            /* 🟢 расстояние между рамкой карточки и кнопкой назад */
+      margin-top: 20px;
       display: flex;
-      justify-content: center;     /* центрируем кнопку */
+      justify-content: center;
     }
 
     .btn-back {
-      width: auto;
       min-width: 160px;
-      padding-inline: 22px;
-      font-size: 18px;             /* 🟢 размер текста Tilbake */
-    }
-
-    /* Используем заливку как у secondary, чтобы она была заметной */
-    .btn-back.btn-secondary {
+      padding: 14px 24px;
+      font-size: 18px;
+      border-radius: var(--radius-md);
       background: var(--accent-lilac);
       color: #1b1030;
-      box-shadow: 0 8px 18px rgba(179, 136, 255, 0.45);
+      border: none;
+      box-shadow: 0 8px 18px rgba(179, 136, 255, 0.4);
+      cursor: pointer;
     }
 
-    .btn-back.btn-secondary:hover {
+    .btn-back:hover {
       background: var(--accent-lilac-hover);
     }
 
-    /* НИЖНИЙ БЛОК СО СЧЁТЧИКОМ + Fjern — общий футер */
+    /* НИЖНИЙ БЛОК: Fjern + Kort i dag + Nullstill */
     .bottom-row {
-      margin-top: 40px;            /* 🟠 отступ под основным контентом до футера.
-                                      Увеличишь/уменьшишь, если захочешь ещё больше "воздуха". */
+      margin-top: var(--footer-gap);   /* 🟠 отступ под основным контентом до футера */
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      font-size: 18px;
+      font-size: 18px;                 /* тот же размер, что и на кнопке */
       color: var(--text-subtle);
     }
 
@@ -289,7 +266,7 @@
       }
 
       header h1 {
-        font-size: 18px;
+        font-size: 20px;
       }
 
       .btn {
@@ -311,38 +288,34 @@
       <p id="header-sub">Klar for prat eller bare litt fun? Trykk på en knapp.</p>
     </header>
 
-    <!-- 🟠 Общая зона для обоих экранов: высота стабилизирована через .main-area -->
-    <div class="main-area">
-      <!-- Экран с двумя кнопками -->
-      <main class="screen active" id="screen-home">
-        <div class="mode-buttons">
-          <button id="btn-spm" class="btn btn-primary">
-            Spørsmål
-          </button>
-          <button id="btn-overraskelse" class="btn btn-secondary">
-            Overraskelse
-          </button>
-        </div>
-      </main>
+    <!-- Экран с двумя кнопками -->
+    <main class="screen active" id="screen-home">
+      <div class="mode-buttons">
+        <button id="btn-spm" class="btn btn-primary">
+          Spørsmål
+        </button>
+        <button id="btn-overraskelse" class="btn btn-secondary">
+          Overraskelse
+        </button>
+      </div>
+    </main>
 
-      <!-- Экран с карточкой -->
-      <main class="screen" id="screen-card">
-        <div class="card" id="card-container">
-          <div class="card-type">
-            <span class="pill" id="card-type-pill">–</span>
-          </div>
-          <div class="card-text" id="card-text">
-            Laster kort …
-          </div>
+    <!-- Экран с карточкой -->
+    <main class="screen" id="screen-card">
+      <div class="card" id="card-container">
+        <div class="card-type">
+          <span class="pill" id="card-type-pill">–</span>
         </div>
-        <div class="card-actions">
-          <!-- Tilbake теперь залитая сиреневая, по центру -->
-          <button id="btn-back" class="btn btn-secondary btn-back">
-            ← Tilbake
-          </button>
+        <div class="card-text" id="card-text">
+          Laster kort …
         </div>
-      </main>
-    </div>
+      </div>
+      <div class="card-actions">
+        <button id="btn-back" class="btn-back">
+          ← Tilbake
+        </button>
+      </div>
+    </main>
 
     <!-- Общий футер: Fjern + Kort i dag + Nullstill -->
     <div class="bottom-row">
@@ -352,7 +325,7 @@
         </button>
       </div>
       <div class="bottom-row-right">
-        <span class="small-label">
+        <span>
           Kort i dag: <strong id="stats-count">–</strong>
         </span>
         <button id="btn-reset" class="btn-ghost small-reset" type="button">
@@ -363,7 +336,7 @@
   </div>
 
   <script>
-    // 🟢 ВСТАВЬ СВОЙ WEB APP URL НИЖЕ (сейчас уже стоит твой)
+    // 🟢 ВСТАВЬ СВОЙ WEB APP URL НИЖЕ
     const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxG4qwvJAu51QRaQgu9FvKnMb5Wi2NMHQK8mnSsRsFlogSElriOFXZ96uOuGwGF6yQ0qg/exec';
 
     const screenHome = document.getElementById('screen-home');
@@ -388,19 +361,15 @@
       if (name === 'home') {
         screenHome.classList.add('active');
         screenCard.classList.remove('active');
-        // подзаголовок виден только на главной
-        headerSub.textContent = 'Klar for prat eller bare litt fun? Trykk på en knapp.'; // 🟢 текст легко поменять
+        headerSub.textContent = 'Klar for prat eller bare litt fun? Trykk på en knapp.';
         headerSub.style.display = 'block';
 
-        // на главном экране отключаем Fjern
         currentCard = null;
         btnRemove.disabled = true;
       } else if (name === 'card') {
         screenCard.classList.add('active');
         screenHome.classList.remove('active');
-        // на карточке подзаголовок убираем
         headerSub.style.display = 'none';
-        // кнопку Fjern включим только после успешной загрузки карточки
       }
     }
 
@@ -444,18 +413,15 @@
           return;
         }
 
-        // В пузыре только тип карточки
         cardTypePill.textContent = data.type || '–';
         cardText.textContent = data.text || '';
 
-        // Сохраняем текущую карточку для Fjern
         currentCard = {
           type: data.type,
           id: data.id
         };
         btnRemove.disabled = false;
 
-        // Обновим счётчик (он виден в футере)
         updateStats();
       } catch (err) {
         cardTypePill.textContent = 'Feil';
@@ -479,7 +445,6 @@
 
     async function resetToday() {
       try {
-        // индикация нажатия
         const prevText = btnReset.textContent;
         btnReset.textContent = '...';
         btnReset.disabled = true;
@@ -489,7 +454,6 @@
       } catch (err) {
         console.log('reset error', err);
       } finally {
-        // вернуть нормальное состояние
         btnReset.textContent = 'Nullstill';
         btnReset.disabled = false;
       }
@@ -501,7 +465,6 @@
           return;
         }
 
-        // лёгкая индикация
         const prevText = btnRemove.textContent;
         btnRemove.textContent = '...';
         btnRemove.disabled = true;
@@ -512,14 +475,11 @@
           id: String(currentCard.id)
         });
 
-        // после удаления — карточка уже неактивна, но текст оставляем,
-        // просто отключаем Fjern для неё
         currentCard = null;
       } catch (err) {
         console.log('remove error', err);
       } finally {
         btnRemove.textContent = 'Fjern';
-        // остаётся disabled, пока не загрузим новую карточку
         btnRemove.disabled = true;
       }
     }
@@ -531,7 +491,7 @@
     btnReset.addEventListener('click', resetToday);
     btnRemove.addEventListener('click', removeCurrentCard);
 
-    // При загрузке сразу подгружаем статистику и показываем домашний экран
+    // Старт: домашний экран + статистика
     setScreen('home');
     updateStats();
   </script>
