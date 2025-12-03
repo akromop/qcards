@@ -4,15 +4,11 @@
   <meta charset="utf-8" />
   <title>QCards</title>
 
-  <!-- правильный viewport для iPhone -->
+  <!-- Viewport / PWA для iPhone -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-
-  <!-- iOS: как отдельное "приложение" -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="QCards">
-
-  <!-- Иконка ярлыка -->
   <link rel="apple-touch-icon" href="icon-180.png">
 
   <style>
@@ -26,6 +22,9 @@
       --accent-pink-hover: #ff6fd0;
       --accent-lilac: #b388ff;
       --accent-lilac-hover: #9b6cff;
+
+      /* 🟢 Синий под чекбокс и бейдж TEST (под iOS) */
+      --accent-test: #0a84ff;
 
       /* 🟢 Цвета текста и бордеров */
       --border-soft: rgba(255, 255, 255, 0.08);
@@ -65,7 +64,7 @@
       max-width: 100%;
       min-height: 100vh;
       margin: 0;
-      padding: 40px 12px 40px;    /* 🟢 общие отступы внутри приложения */
+      padding: 40px 12px 40px;    /* 🟢 общие отступы внутри "приложения" */
       border-radius: 0;
       background:
         radial-gradient(circle at top left, rgba(255, 79, 191, 0.18), transparent 55%),
@@ -80,7 +79,7 @@
 
     header {
       text-align: center;         /* 🟢 заголовок по центру */
-      margin-bottom: 20px;        /* 🟢 расстояние от шапки до контента */
+      margin-bottom: 20px;
     }
 
     header h1 {
@@ -90,7 +89,7 @@
     }
 
     header p {
-      margin: 20px 0 0;           /* 🟢 «пустая строка» между h1 и подзаголовком */
+      margin: 20px 0 0;           /* 🟢 пустая строка под заголовком */
       font-size: 20px;            /* 🟢 размер подзаголовка */
       color: var(--text-subtle);
     }
@@ -103,7 +102,7 @@
 
     .screen {
       display: none;
-      min-height: 250px;          /* 🟠 высота рабочей зоны */
+      min-height: 250px;          /* 🟠 высота "рабочей зоны" */
     }
     .screen.active {
       display: block;
@@ -113,8 +112,8 @@
     .mode-buttons {
       display: flex;
       flex-direction: column;
-      gap: 18px;                  /* 🟢 расстояние между Spørsmål / Overraskelse */
-      margin: 10px 0 10px;        /* 🟢 отступы сверху/снизу блока с кнопками */
+      gap: 18px;                  /* 🟢 расстояние между кнопками */
+      margin: 10px 0 10px;        /* 🟢 отступы блока кнопок */
     }
 
     .btn {
@@ -122,8 +121,8 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 40px 20px;         /* 🟢 высота больших кнопок */
-      font-size: 30px;            /* 🟢 размер текста в кнопках */
+      padding: 40px 20px;         /* 🟢 высота кнопок */
+      font-size: 30px;            /* 🟢 размер текста на кнопках */
       font-weight: 600;
       border-radius: var(--radius-md);
       border: none;
@@ -183,7 +182,7 @@
     }
 
     .btn-ghost:disabled {
-      opacity: 0.45;              /* 🟢 disabled state */
+      opacity: 0.45;              /* 🟢 состояние disabled */
       cursor: default;
     }
 
@@ -201,7 +200,7 @@
       transition: border-color 0.08s ease, box-shadow 0.08s ease;
     }
 
-    /* Рамка в зависимости от нажатой кнопки */
+    /* Рамка зависит от нажатой кнопки */
     .card.card-from-spm {
       border-color: var(--accent-pink);
       box-shadow: 0 0 0 1px rgba(255, 79, 191, 0.35);
@@ -217,42 +216,39 @@
       margin-bottom: 5px;
       color: var(--text-subtle);
       display: flex;
-      justify-content: space-between; /* тип слева, TEST справа */
+      justify-content: flex-start;  /* тип слева */
       align-items: center;
+      gap: 8px;
     }
 
-    /* 🟢 Плашка с типом, цвет меняем классами pill-spm / pill-overraskelse */
-    .type-pill {
-      padding: 4px 10px;
+    /* Общий стиль "пузырей" */
+    .pill {
+      padding: 2px 10px;
       border-radius: 999px;
       font-size: 14px;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-main);
-    }
-    .type-pill-spm {
-      background: var(--accent-pink);
-      color: #250815;
-    }
-    .type-pill-overraskelse {
-      background: var(--accent-lilac);
-      color: #1b1030;
-    }
-
-    /* Бейдж TEST */
-    .test-badge {
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
       background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-subtle);
     }
-    .test-badge.hidden {
-      display: none;
+
+    /* Тип = тот же цвет, что и рамка */
+    .pill-type-spm {
+      background: rgba(255, 79, 191, 0.16);
+      border-color: rgba(255, 79, 191, 0.7);
+      color: var(--accent-pink);
+    }
+    .pill-type-overraskelse {
+      background: rgba(179, 136, 255, 0.16);
+      border-color: rgba(179, 136, 255, 0.7);
+      color: var(--accent-lilac);
+    }
+
+    /* Бейдж TEST — тот же синий, что чекбокс */
+    .pill-test {
+      background: var(--accent-test);
+      border-color: var(--accent-test);
+      color: #ffffff;
+      font-weight: 600;
     }
 
     .card-text {
@@ -264,7 +260,7 @@
       min-height: 325px;          /* 🟠 минимальная высота текста */
     }
 
-    /* Кнопка «Tilbake» — отдельный блок под карточкой */
+    /* Кнопка Tilbake — отдельным блоком */
     .card-actions {
       width: 50%;
       margin: 18px auto 0;
@@ -286,9 +282,9 @@
       background: #464c66;
     }
 
-    /* ФУТЕР: Testmodus + Fjern + Kort i dag + Nullstill */
+    /* ОБЩИЙ ФУТЕР: Testmodus + Fjern + Kort i dag + Nullstill */
     .bottom-row {
-      margin-top: 50px;          /* 🟠 расстояние от контента до футера */
+      margin-top: 50px;           /* 🟠 расстояние от контента до футера */
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -300,20 +296,7 @@
     .bottom-row-left {
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-
-    .testmode-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      color: var(--text-subtle);
-    }
-
-    .testmode-toggle input {
-      width: 18px;
-      height: 18px;
+      gap: 10px;
     }
 
     .bottom-row-right {
@@ -325,6 +308,19 @@
     .bottom-row span strong {
       color: var(--text-main);
       font-weight: 600;
+    }
+
+    /* Тест-чекбокс + подпись */
+    .test-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 16px;
+      color: var(--text-subtle);
+    }
+    .test-toggle input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
     }
 
     @media (min-width: 900px) {
@@ -340,7 +336,6 @@
   <div class="app">
     <header>
       <h1>QCards</h1>
-      <!-- 🟢 текст под заголовком для подростков -->
       <p id="header-sub">Klar for prat eller bare litt fun? Trykk på en knapp.</p>
     </header>
 
@@ -361,8 +356,8 @@
       <main class="screen" id="screen-card">
         <div class="card" id="card-container">
           <div class="card-type">
-            <span id="card-type-pill" class="type-pill">–</span>
-            <span id="card-test-badge" class="test-badge hidden">TEST</span>
+            <span id="card-type-pill" class="pill">–</span>
+            <span id="card-test-pill" class="pill pill-test" style="display:none;">TEST</span>
           </div>
           <div class="card-text" id="card-text">
             Laster kort …
@@ -379,14 +374,17 @@
     <!-- Футер: Testmodus + Fjern + Kort i dag + Nullstill -->
     <div class="bottom-row">
       <div class="bottom-row-left">
-        <label class="testmode-toggle">
-          <input type="checkbox" id="chk-testmode" />
-          <span>Testmodus</span>
+        <!-- ✅ ВЕРНУЛИ чекбокс Testmodus -->
+        <label class="test-toggle">
+          <input type="checkbox" id="chk-test">
+          Testmodus
         </label>
+
         <button id="btn-remove" class="btn-ghost small-reset" type="button" disabled>
           Fjern
         </button>
       </div>
+
       <div class="bottom-row-right">
         <span class="small-label">
           Kort i dag: <strong id="stats-count">–</strong>
@@ -410,18 +408,17 @@
     const btnBack = document.getElementById('btn-back');
     const btnReset = document.getElementById('btn-reset');
     const btnRemove = document.getElementById('btn-remove');
-
-    const chkTestmode = document.getElementById('chk-testmode');
+    const chkTest = document.getElementById('chk-test');   // ✅ test checkbox
 
     const cardContainer = document.getElementById('card-container');
     const cardTypePill = document.getElementById('card-type-pill');
-    const cardTestBadge = document.getElementById('card-test-badge');
+    const cardTestPill = document.getElementById('card-test-pill');
     const cardText = document.getElementById('card-text');
     const statsCountEl = document.getElementById('stats-count');
     const headerSub = document.getElementById('header-sub');
 
+    // Текущая карточка для Fjern
     let currentCard = null;
-    let isTestMode = false; // текущее состояние чекбокса Testmodus
 
     function setScreen(name) {
       if (name === 'home') {
@@ -455,63 +452,69 @@
 
     function setCardVisualMode(mode) {
       cardContainer.classList.remove('card-from-spm', 'card-from-overraskelse');
-      cardTypePill.classList.remove('type-pill-spm', 'type-pill-overraskelse');
+      cardTypePill.classList.remove('pill-type-spm', 'pill-type-overraskelse');
 
       if (mode === 'spm') {
         cardContainer.classList.add('card-from-spm');
-        cardTypePill.classList.add('type-pill-spm');
+        cardTypePill.classList.add('pill-type-spm');
       } else if (mode === 'overraskelse') {
         cardContainer.classList.add('card-from-overraskelse');
-        cardTypePill.classList.add('type-pill-overraskelse');
+        cardTypePill.classList.add('pill-type-overraskelse');
       }
+    }
+
+    function isTestMode() {
+      return !!chkTest.checked;
     }
 
     async function loadCard(mode) {
       try {
+        const testFlag = isTestMode() ? '1' : '0';
+
         cardText.textContent = 'Laster kort …';
         setCardVisualMode(mode);
         setScreen('card');
 
-        const data = await callBackend({
-          mode,
-          test: isTestMode ? '1' : '0'   // ← передаём test-флаг в backend
-        });
+        const data = await callBackend({ mode, test: testFlag });
 
         if (!data.ok) {
           cardTypePill.textContent = 'Feil';
-          cardTestBadge.classList.add('hidden');
+          cardTestPill.style.display = 'none';
           cardText.textContent = data.error || 'Ukjent feil';
           currentCard = null;
           btnRemove.disabled = true;
           return;
         }
 
+        // Тип
         cardTypePill.textContent = data.type || '–';
 
         // TEST бейдж
-        if (data.test === true) {
-          cardTestBadge.classList.remove('hidden');
+        if (data.test === true || data.test === '1') {
+          cardTestPill.style.display = 'inline-flex';
+          // В тест-режиме Fjern блокируем
+          btnRemove.disabled = true;
         } else {
-          cardTestBadge.classList.add('hidden');
+          cardTestPill.style.display = 'none';
+          // В обычном режиме Fjern доступен
+          btnRemove.disabled = false;
         }
 
         cardText.textContent = data.text || '';
 
-        // В тест-режиме Fjern по-прежнему может выключать карточку,
-        // так что currentCard заполняем всегда
+        // текущая карточка для Fjern (в обычном режиме)
         currentCard = {
           type: data.type,
           id: data.id
         };
-        btnRemove.disabled = false;
 
-        // Счётчик обновляем только если это НЕ тест-режим
-        if (!isTestMode) {
+        // Обновляем счётчик только в обычном режиме
+        if (!(data.test === true || data.test === '1')) {
           updateStats();
         }
       } catch (err) {
         cardTypePill.textContent = 'Feil';
-        cardTestBadge.classList.add('hidden');
+        cardTestPill.style.display = 'none';
         cardText.textContent = 'Kunne ikke hente kort. Prøv igjen.';
         console.log(err);
         currentCard = null;
@@ -577,11 +580,6 @@
     btnBack.addEventListener('click', () => setScreen('home'));
     btnReset.addEventListener('click', resetToday);
     btnRemove.addEventListener('click', removeCurrentCard);
-
-    // Чекбокс test-режима
-    chkTestmode.addEventListener('change', (e) => {
-      isTestMode = e.target.checked;
-    });
 
     setScreen('home');
     updateStats();
